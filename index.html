@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You ❤</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; font-family: 'Poppins', sans-serif; background-color: #0d0d0d; color: #fff; display: flex; align-items: center; justify-content: center; }
+    .wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 500px; padding: 30px; border-radius: 20px; background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); box-shadow: 0 0 20px rgba(255,255,255,0.05); transition: all 0.5s ease; animation: fadeInUp 0.6s ease forwards; }
+    .hidden { display: none; }
+
+    /* Inputs & Buttons */
+    input[type="password"] { padding: 12px 20px; font-size: 1.2em; border-radius: 8px; border: none; outline: none; width: 80px; text-align: center; margin-bottom: 15px; }
+    .btn { padding: 12px 30px; background-color: #ff4d6d; color: #fff; border: none; border-radius: 30px; font-size: 1em; cursor: pointer; margin: 10px; transition: transform 0.3s, background-color 0.3s; }
+    .btn:hover { transform: scale(1.05); background-color: #ff2a4a; }
+
+    /* Hint text */
+    .hint { font-size: 0.9em; color: #cccccc; margin-bottom: 20px; }
+
+    /* Images */
+    img { max-width: 100%; max-height: 60vh; border-radius: 12px; margin: 20px 0; object-fit: cover; animation: fadeInUp 0.8s ease forwards; }
+
+    /* Bangla font */
+    .bangla { font-family: 'Noto Sans Bengali', sans-serif; }
+
+    /* Animations */
+    @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+    /* Responsive */
+    @media (max-width: 600px) { .container { padding: 20px; } input[type="password"] { width: 60px; } }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Step: PIN -->
+    <div class="container" id="step-pin">
+      <h2>Enter PIN</h2>
+      <input type="password" id="pinInput" maxlength="2" placeholder="__" />
+      <div class="hint">Hint: It's your birthday</div>
+      <button class="btn" onclick="checkPin()">Submit</button>
+    </div>
+
+    <!-- Step: Message -->
+    <div class="container hidden" id="step-msg">
+      <p class="bangla" style="font-size:1.2em;"> ভণ্ডামি বাদ দাও</p>
+      <p class="bangla" style="font-size:1.2em;">জলদি পরের পেজে যাও</p>
+      <div>
+        <button class="btn" onclick="nextStep()">Next</button>
+      </div>
+    </div>
+
+    <!-- Step: Image -->
+    <div class="container hidden" id="step-img">
+      <img src="image.jpg" alt="This is You">
+      <p class="bangla" style="font-size:1.1em;">এটা তুমি</p>
+      <div>
+        <button class="btn" onclick="previousStep()">Back</button>
+        <button class="btn" onclick="nextStep()">Next</button>
+      </div>
+    </div>
+
+    <!-- Step: Tomorrow -->
+    <div class="container hidden" id="step-tomorrow">
+      <p class="bangla" style="font-size:1.1em;">আগামীকাল সন্ধ্যায় ফিরে এসো নতুন কিছু দেখার জন্য 🥰</p>
+      <div>
+        <button class="btn" onclick="previousStep()">Back</button>
+        <a class="btn" href="https://t.me/RtRahat" target="_blank">Message Me</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show only the given step
+    function showStep(id) {
+      document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function checkPin() {
+      const pin = document.getElementById('pinInput').value;
+      if (pin === '26') {
+        showStep('step-msg');
+      } else {
+        alert('Wrong PIN!');
+      }
+    }
+
+    function nextStep() {
+      if (!document.getElementById('step-msg').classList.contains('hidden')) {
+        showStep('step-img');
+      } else if (!document.getElementById('step-img').classList.contains('hidden')) {
+        showStep('step-tomorrow');
+      }
+    }
+
+    function previousStep() {
+      if (!document.getElementById('step-msg').classList.contains('hidden')) {
+        showStep('step-pin');
+      } else if (!document.getElementById('step-img').classList.contains('hidden')) {
+        showStep('step-msg');
+      } else if (!document.getElementById('step-tomorrow').classList.contains('hidden')) {
+        showStep('step-img');
+      }
+    }
+  </script>
+</body>
+</html>
